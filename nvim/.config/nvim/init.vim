@@ -5,6 +5,10 @@ set expandtab
 set shiftwidth=2
 set tabstop=2
 
+set number
+highlight clear SignColumn
+set signcolumn=number
+
 " Nice menu when typing `:find *.py`
 set wildmode=longest,list,full
 set wildmenu
@@ -38,6 +42,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-unimpaired'
 
+Plug 'airblade/vim-gitgutter'
 " Using a non-default branch
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
@@ -57,6 +62,9 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/switch.vim'
 Plug 'AndrewRadev/tagalong.vim'
 
+" Tests
+Plug 'vim-test/vim-test'
+
 " Man pages from vim
 Plug 'vim-utils/vim-man'
 
@@ -75,6 +83,11 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
+
+"
+Plug 'tomtom/tcomment_vim'
+
+Plug 'morhetz/gruvbox'
 
 " Initialize plugin system
 call plug#end()
@@ -97,6 +110,23 @@ nnoremap <leader>Y gg"+yG
 
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
+
+" test.vim mappings
+map <Leader>n :TestNearest<CR>
+map <Leader>tf :TestFile<CR>
+map <Leader>l :TestLast<CR>
+map <Leader>tb :TestVisit<CR>
+
+" vim-fugivituve
+nmap <Leader>gs :G<CR>
+nmap <Leader>f :diffget //2<CR>
+nmap <Leader>j :diffget //3<CR>
+
+" vim-rails
+nmap <Leader>a :R<CR>
+
+" other
+nmap <Leader><Space> :w<CR>
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
