@@ -5,6 +5,8 @@ set expandtab
 set shiftwidth=2
 set tabstop=2
 
+set colorcolumn=120
+
 set number
 highlight clear SignColumn
 set signcolumn=number
@@ -88,6 +90,8 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'tomtom/tcomment_vim'
 
 Plug 'morhetz/gruvbox'
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
 
 " Initialize plugin system
 call plug#end()
@@ -102,7 +106,8 @@ nnoremap <c-l> :SidewaysRight<cr>
 
 let mapleader = " "
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-xnoremap <leader>p "_dP
+" xnoremap <leader>p "_dP
+nmap <Leader>p cw<C-r>0
 
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
@@ -125,8 +130,12 @@ nmap <Leader>j :diffget //3<CR>
 " vim-rails
 nmap <Leader>a :R<CR>
 
+nmap <Leader>r :!rubocop %<CR>
+nmap <Leader>s :Rg <C-r><C-w><CR>
+
 " other
 nmap <Leader><Space> :w<CR>
+nmap <Leader>c :bd<CR>
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
