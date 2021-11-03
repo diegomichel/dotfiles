@@ -93,6 +93,9 @@ Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon'
+
 " Initialize plugin system
 call plug#end()
 
@@ -136,6 +139,16 @@ nmap <Leader>s :Rg <C-r><C-w><CR>
 " other
 nmap <Leader><Space> :w<CR>
 nmap <Leader>c :bd<CR>
+
+" Harpoon
+nmap <Leader>. :lua require("harpoon.mark").add_file()<CR>
+nmap <Leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
+nmap <Leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
+nmap <Leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
+nmap <Leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
+nmap <Leader>, :lua require("harpoon.ui").toggle_quick_menu()<CR>
+
+
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
