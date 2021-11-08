@@ -6,6 +6,8 @@ set shiftwidth=2
 set tabstop=2
 
 set colorcolumn=120
+colorscheme smyck
+set background=dark
 
 set number
 highlight clear SignColumn
@@ -96,6 +98,11 @@ let g:sneak#label = 1
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
 
+Plug 'vim-ruby/vim-ruby'
+
+"Theme
+Plug 'fcpg/vim-orbital'
+Plug 'jpo/vim-railscasts-theme'
 " Initialize plugin system
 call plug#end()
 
