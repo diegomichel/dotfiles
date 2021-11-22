@@ -11,7 +11,15 @@ set background=dark
 
 set number
 highlight clear SignColumn
-set signcolumn=number
+set signcolumn=yes
+
+set smartcase
+
+set list
+set listchars=tab:▸\ ,trail:·
+
+set scrolloff=8
+set sidescrolloff=8
 
 " Nice menu when typing `:find *.py`
 set wildmode=longest,list,full
@@ -103,6 +111,9 @@ Plug 'vim-ruby/vim-ruby'
 "Theme
 Plug 'fcpg/vim-orbital'
 Plug 'jpo/vim-railscasts-theme'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
 " Initialize plugin system
 call plug#end()
 
@@ -139,13 +150,17 @@ nmap <Leader>j :diffget //3<CR>
 
 " vim-rails
 nmap <Leader>a :R<CR>
+nmap <Leader>m :Tmodel <CR>
+nmap <Leader>c :Tcontroller<CR>
+nmap <Leader>v :Tview<CR>
 
-nmap <Leader>r :!rubocop %<CR>
+nmap <Leader>r :!bundle exec rubocop %<CR>
 nmap <Leader>s :Rg <C-r><C-w><CR>
 
 " other
 nmap <Leader><Space> :w<CR>
-nmap <Leader>c :bd<CR>
+nmap <Leader>x :bd<CR>
+
 
 " Harpoon
 nmap <Leader>. :lua require("harpoon.mark").add_file()<CR>
@@ -156,6 +171,32 @@ nmap <Leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 nmap <Leader>, :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 
+" Macros
+let @r = "Obinding.remote_pry"
+let @d = "Obinding.pry"
+let @p = "ywOputs \"\"Pbea: pbi#{ea}"
+
+" Must haves
+nnoremap Y yg_
+" Keeps cursor center
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+" Undo break points
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap { {<c-g>u
+inoremap [ [<c-g>u
+inoremap ? ?<c-g>u
+inoremap ! !<c-g>u
+
+" Moving lines in visual mode 
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" super replace
+nnoremap cn *``cgn
+nnoremap cN *``cgN
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
@@ -209,3 +250,20 @@ for _, lsp in ipairs(servers) do
   }
 end
 EOF
+
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   highlight = {
+"     enable = true,
+"     custom_captures = {
+"       -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+"       ["foo.bar"] = "Identifier",
+"     },
+"     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+"     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+"     -- Using this option may slow down your editor, and you may see some duplicate highlights.
+"     -- Instead of true it can also be a list of languages
+"     additional_vim_regex_highlighting = false,
+"   },
+" }
+" EOF
