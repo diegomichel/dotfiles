@@ -170,6 +170,9 @@ nmap <Leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
 nmap <Leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 nmap <Leader>, :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
+" Configurations and stuffs
+nmap <Leader>vc :e ~/.config/nvim/init.vim<CR>
+nmap <Leader>vz :e ~/.zshrc<CR>
 
 " Macros
 let @r = "Obinding.remote_pry"

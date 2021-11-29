@@ -136,10 +136,28 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 alias vim="nvim"
 # Enable vi mode
 bindkey -v
-alias mux="tmuxinator"
 # alias heroku_staging="tmux new-window -n 'staging' 'heroku run 'bundle exec rails c -- --nomultiline' -a fleetio-stage -s performance-m'"
 # alias heroku_staging="heroku run 'bundle exec rails c -- --nomultiline' -a fleetio-stage -s performance-m"
 # alias heroku_staging="heroku run 'bundle exec rails c -- --nomultiline' -a fleetio-stage -s performance-m"
 # alias heroku_staging="heroku run 'bundle exec rails c -- --nomultiline' -a fleetio-stage -s performance-m"
 alias stow_away="stow -d ~/dotfiles -t ~/ -S *"
 alias be="bundle exec"
+alias rconf="git merge --no-commit --squash config && git reset HEAD"
+alias gs="git status"
+alias v="vim"
+alias rc="bundle exec rails c"
+alias wp="bundle exec bin/webpack-dev-server"
+alias fl="cd ~/github/fleetio"
+alias bi="bundle install"
+alias brs="bundle exec puma -C config/puma.rb"
+alias t="tmux a"
+alias s="bundle exec sidekiq"
+alias vzsh="vim ~/.zshrc"
+alias al="alias|grep"
+
+function expand-alias() {
+  zle _expand_alias
+  zle self-insert
+}
+zle -N expand-alias
+bindkey -M main ' ' expand-alias
