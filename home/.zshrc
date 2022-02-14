@@ -126,10 +126,6 @@ fi
 if [ -f ~/.bash_profile ]; then 
     . ~/.bash_profile;
 fi
-eval "$(nodenv init -)"
-eval "$(rbenv init -)"
-
-export PATH="/usr/local/sbin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
@@ -153,7 +149,10 @@ alias brs="bundle exec puma -C config/puma.rb"
 alias t="tmux a"
 alias s="bundle exec sidekiq"
 alias vzsh="vim ~/.zshrc"
-alias al="alias|grep"
+alias al="alias|grep "
+alias his="history|grep "
+alias rcs="rails credentials:show"
+alias rce="rails credentials:edit"
 
 function expand-alias() {
   zle _expand_alias

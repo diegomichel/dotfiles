@@ -114,6 +114,8 @@ Plug 'jpo/vim-railscasts-theme'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
+Plug 'https://github.com/tpope/vim-rbenv'
+
 " Initialize plugin system
 call plug#end()
 
@@ -270,3 +272,12 @@ EOF
 "   },
 " }
 " EOF
+set numberwidth=20
+" colorscheme Tomorrow-Night-Bright
+"  colorscheme default
+" highlight Normal guibg=black guifg=white
+"  set background=dark
+" highlight Normal ctermbg=None
+hi Normal ctermbg=16 guibg=#000000
+hi LineNr ctermbg=16 guibg=#000000
+set guifont=Menlo:h20
