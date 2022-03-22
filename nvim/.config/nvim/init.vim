@@ -116,6 +116,9 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 
 Plug 'https://github.com/tpope/vim-rbenv'
 
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'https://github.com/preservim/vimux'
+
 " Initialize plugin system
 call plug#end()
 
@@ -140,10 +143,10 @@ nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 
 " test.vim mappings
-map <Leader>n :TestNearest<CR>
-map <Leader>tf :TestFile<CR>
-map <Leader>l :TestLast<CR>
-map <Leader>tb :TestVisit<CR>
+map <Leader>n :w<CR>:TestNearest<CR>
+map <Leader>tf :w<CR>:TestFile<CR>
+map <Leader>l :w<CR>:TestLast<CR>
+map <Leader>tb :w<CR>:TestVisit<CR>
 
 " vim-fugivituve
 nmap <Leader>gs :G<CR>
@@ -272,7 +275,7 @@ EOF
 "   },
 " }
 " EOF
-set numberwidth=20
+" set numberwidth=20
 " colorscheme Tomorrow-Night-Bright
 "  colorscheme default
 " highlight Normal guibg=black guifg=white
@@ -281,3 +284,39 @@ set numberwidth=20
 hi Normal ctermbg=16 guibg=#000000
 hi LineNr ctermbg=16 guibg=#000000
 set guifont=Menlo:h20
+
+
+let test#strategy = "vimux"
+
+lua << EOF
+-- require("indent_blankline").setup {
+--     -- for example, context is off by default, use this to turn it on
+--     show_current_context = true,
+--     show_current_context_start = true,
+-- }
+vim.opt.termguicolors = true
+vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
+
+vim.opt.list = true
+-- vim.opt.listchars:append("space:⋅")
+-- vim.opt.listchars:append("eol:↴")
+
+require("indent_blankline").setup {
+    space_char_blankline = " ",
+    char_highlight_list = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+        "IndentBlanklineIndent3",
+        "IndentBlanklineIndent4",
+        "IndentBlanklineIndent5",
+        "IndentBlanklineIndent6",
+    },
+}
+EOF
+
+set spell spelllang=en_us
