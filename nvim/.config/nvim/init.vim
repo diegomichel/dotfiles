@@ -119,6 +119,24 @@ Plug 'https://github.com/tpope/vim-rbenv'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'https://github.com/preservim/vimux'
 
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
+" ChatGTP
+
+Plug 'MunifTanjim/nui.nvim'
+Plug 'dpayne/CodeGPT.nvim'
+
+" Auto join or split code into multiple lines
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'github/copilot.vim'
+" Plug 'othree/html5.vim'
+
+Plug 'tpope/vim-ragtag'
+
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'nvim-tree/nvim-web-devicons'
+
 " Initialize plugin system
 call plug#end()
 
@@ -161,6 +179,7 @@ nmap <Leader>v :Tview<CR>
 
 nmap <Leader>r :!bundle exec rubocop %<CR>
 nmap <Leader>s :Rg <C-r><C-w><CR>
+nmap <Leader>k y2w:Rg <C-r>0<CR>
 
 " other
 nmap <Leader><Space> :w<CR>
@@ -281,10 +300,10 @@ EOF
 " highlight Normal guibg=black guifg=white
 "  set background=dark
 " highlight Normal ctermbg=None
+
 hi Normal ctermbg=16 guibg=#000000
 hi LineNr ctermbg=16 guibg=#000000
 set guifont=Menlo:h20
-
 
 let test#strategy = "vimux"
 
@@ -320,3 +339,147 @@ require("indent_blankline").setup {
 EOF
 
 set spell spelllang=en_us
+
+lua << EOF
+require("tokyonight").setup({
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+  transparent = true, -- Enable this to disable setting the background color
+  terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+  styles = {
+    -- Style to be applied to different syntax groups
+    -- Value is any valid attr-list value for `:help nvim_set_hl`
+    comments = { italic = true },
+    keywords = { italic = true },
+    functions = {},
+    variables = {},
+    -- Background styles. Can be "dark", "transparent" or "normal"
+    sidebars = "dark", -- style for sidebars, see below
+    floats = "transparent", -- style for floating windows
+  },
+  sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+  day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+  hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+  dim_inactive = false, -- dims inactive windows
+  lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+
+  --- You can override specific color groups to use other groups or a hex color
+  --- function will be called with a ColorScheme table
+  ---@param colors ColorScheme
+  on_colors = function(colors) end,
+
+  --- You can override specific highlights to use other groups or a hex color
+  --- function will be called with a Highlights and ColorScheme table
+  ---@param highlights Highlights
+  ---@param colors ColorScheme
+  on_highlights = function(highlights, colors) end,
+})
+EOF
+
+nnoremap S :%s///cg<Left><Left><Left>
+
+let g:copilot_enabled = 1
+
+" disables mouse
+set mouse=
+
+" copy to system clipboard
+vnoremap <C-c> "*y
+" paste system clipboard
+nnoremap <C-v> "*p
+
+lua << END
+vim.g["codegpt_hooks"] = {
+	request_started = function()
+		vim.cmd("hi StatusLine ctermbg=NONE ctermfg=yellow")
+	end,
+  request_finished = vim.schedule_wrap(function()
+		vim.cmd("hi StatusLine ctermbg=NONE ctermfg=NONE")
+	end)
+}
+local CodeGPTModule = require("codegpt")
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'gruvbox',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = { {'filename', path = 1} },
+    lualine_x = { CodeGPTModule.get_status, "encoding", "fileformat" },
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename', path = 2},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "ruby", "sql"},
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
+  -- List of parsers to ignore installing (for "all")
+  ignore_install = { },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- the name of the parser)
+    -- list of language that will be disabled
+    disable = { "yaml", "erb", "tree-sitter-yaml", "YAML" },
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+END
