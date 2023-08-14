@@ -278,208 +278,87 @@ for _, lsp in ipairs(servers) do
 end
 EOF
 
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"   highlight = {
-"     enable = true,
-"     custom_captures = {
-"       -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-"       ["foo.bar"] = "Identifier",
-"     },
-"     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-"     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-"     -- Using this option may slow down your editor, and you may see some duplicate highlights.
-"     -- Instead of true it can also be a list of languages
-"     additional_vim_regex_highlighting = false,
-"   },
-" }
-" EOF
-" set numberwidth=20
-" colorscheme Tomorrow-Night-Bright
-"  colorscheme default
-" highlight Normal guibg=black guifg=white
-"  set background=dark
-" highlight Normal ctermbg=None
-
 hi Normal ctermbg=16 guibg=#000000
 hi LineNr ctermbg=16 guibg=#000000
 set guifont=Menlo:h20
 
 let test#strategy = "vimux"
 
-lua << EOF
--- require("indent_blankline").setup {
---     -- for example, context is off by default, use this to turn it on
---     show_current_context = true,
---     show_current_context_start = true,
--- }
-vim.opt.termguicolors = true
-vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
-
-vim.opt.list = true
--- vim.opt.listchars:append("space:⋅")
--- vim.opt.listchars:append("eol:↴")
-
-require("indent_blankline").setup {
-    space_char_blankline = " ",
-    char_highlight_list = {
-        "IndentBlanklineIndent1",
-        "IndentBlanklineIndent2",
-        "IndentBlanklineIndent3",
-        "IndentBlanklineIndent4",
-        "IndentBlanklineIndent5",
-        "IndentBlanklineIndent6",
-    },
-}
-EOF
-
-set spell spelllang=en_us
+ set spell spelllang=en_us
 
 lua << EOF
-require("tokyonight").setup({
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-  transparent = true, -- Enable this to disable setting the background color
-  terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
-  styles = {
-    -- Style to be applied to different syntax groups
-    -- Value is any valid attr-list value for `:help nvim_set_hl`
-    comments = { italic = true },
-    keywords = { italic = true },
-    functions = {},
-    variables = {},
-    -- Background styles. Can be "dark", "transparent" or "normal"
-    sidebars = "dark", -- style for sidebars, see below
-    floats = "transparent", -- style for floating windows
-  },
-  sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-  day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-  hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-  dim_inactive = false, -- dims inactive windows
-  lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+ require("tokyonight").setup({
+   -- your configuration comes here
+   -- or leave it empty to use the default settings
+   style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+   transparent = true, -- Enable this to disable setting the background color
+   terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+   styles = {
+     -- Style to be applied to different syntax groups
+     -- Value is any valid attr-list value for `:help nvim_set_hl`
+     comments = { italic = true },
+     keywords = { italic = true },
+     functions = {},
+     variables = {},
+     -- Background styles. Can be "dark", "transparent" or "normal"
+     sidebars = "dark", -- style for sidebars, see below
+     floats = "transparent", -- style for floating windows
+   },
+   sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+   day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+   hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+   dim_inactive = false, -- dims inactive windows
+   lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
 
-  --- You can override specific color groups to use other groups or a hex color
-  --- function will be called with a ColorScheme table
-  ---@param colors ColorScheme
-  on_colors = function(colors) end,
+   --- You can override specific color groups to use other groups or a hex color
+   --- function will be called with a ColorScheme table
+   ---@param colors ColorScheme
+   on_colors = function(colors) end,
 
-  --- You can override specific highlights to use other groups or a hex color
-  --- function will be called with a Highlights and ColorScheme table
-  ---@param highlights Highlights
-  ---@param colors ColorScheme
-  on_highlights = function(highlights, colors) end,
-})
+   --- You can override specific highlights to use other groups or a hex color
+   --- function will be called with a Highlights and ColorScheme table
+   ---@param highlights Highlights
+   ---@param colors ColorScheme
+   on_highlights = function(highlights, colors) end,
+ })
 EOF
 
-nnoremap S :%s///cg<Left><Left><Left>
+ nnoremap S :%s///cg<Left><Left><Left>
 
-let g:copilot_enabled = 1
+ let g:copilot_enabled = 1
 
-" disables mouse
-set mouse=
+ " disables mouse
+ set mouse=
 
-" copy to system clipboard
-vnoremap <C-c> "*y
-" paste system clipboard
-nnoremap <C-v> "*p
+ " copy to system clipboard
+ vnoremap <C-c> "*y
+ " paste system clipboard
+ nnoremap <C-v> "*p
 
-lua << END
-vim.g["codegpt_hooks"] = {
-	request_started = function()
-		vim.cmd("hi StatusLine ctermbg=NONE ctermfg=yellow")
-	end,
-  request_finished = vim.schedule_wrap(function()
-		vim.cmd("hi StatusLine ctermbg=NONE ctermfg=NONE")
-	end)
-}
-local CodeGPTModule = require("codegpt")
-require('lualine').setup {
-  options = {
-    icons_enabled = true,
-    theme = 'gruvbox',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
-    disabled_filetypes = {
-      statusline = {},
-      winbar = {},
-    },
-    ignore_focus = {},
-    always_divide_middle = true,
-    globalstatus = false,
-    refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
-    }
-  },
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = { {'filename', path = 1} },
-    lualine_x = { CodeGPTModule.get_status, "encoding", "fileformat" },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename', path = 2},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
-  extensions = {}
-}
+ function! OpenErrorFile()
+   let l:pwd = getcwd()
+   try
+   " Call the Ruby script and capture the result
+   let l:output = system('ruby ~/find_error.rb ' . l:pwd)
 
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "ruby", "sql"},
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+   if l:output == "Error not found"
+     echom "No 500 Internal Server Error found"
+     return
+   endif
 
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
+   " Extract file name and line number from the output
+   let l:parts = split(l:output, ':')
+   let l:filePath = l:parts[0]
+   let l:lineNumber = l:parts[1]
 
-  -- List of parsers to ignore installing (for "all")
-  ignore_install = { },
+   " Open the file at the specified line number
+   execute 'edit +' . l:lineNumber . ' ' . l:filePath
+ catch
+   echom "No 500 Internal Server Error found"
+   return
+ endtry
+ endfunction
 
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-  highlight = {
-    enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    disable = { "yaml", "erb", "tree-sitter-yaml", "YAML" },
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-    disable = function(lang, buf)
-        local max_filesize = 100 * 1024 -- 100 KB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
-            return true
-        end
-    end,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-
-END
+ command! OpenErrorFile call OpenErrorFile()
+ nnoremap <leader>e :OpenErrorFile<CR>
