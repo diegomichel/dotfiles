@@ -6,7 +6,7 @@ set shiftwidth=2
 set tabstop=2
 
 set colorcolumn=120
-colorscheme smyck
+colorscheme molokai
 set background=dark
 
 set number
@@ -330,6 +330,7 @@ EOF
  " disables mouse
  set mouse=
 
+ set clipboard+=unnamedplus
  " copy to system clipboard
  vnoremap <C-c> "*y
  " paste system clipboard
@@ -360,5 +361,5 @@ EOF
  endtry
  endfunction
 
- command! OpenErrorFile call OpenErrorFile()
- nnoremap <leader>e :OpenErrorFile<CR>
+command! OpenErrorFile call OpenErrorFile()
+nnoremap <leader>e :OpenErrorFile<CR>
