@@ -226,7 +226,18 @@ nnoremap cn *``cgn
 nnoremap cN *``cgN
 
 lua << EOF
-require'lspconfig'.solargraph.setup{}
+-- require'lspconfig'.solargraph.setup{}
+vim.opt.signcolumn = "yes" -- otherwise it bounces in and out, not strictly needed though
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "ruby",
+  group = vim.api.nvim_create_augroup("RubyLSP", { clear = true }), -- also this is not /needed/ but it's good practice 
+  callback = function()
+    vim.lsp.start {
+      name = "standard",
+      cmd = { "standardrb", "--lsp" },
+    }
+  end,
+})
 EOF
 
 lua << EOF
@@ -267,15 +278,15 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "solargraph" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-	on_attach = on_attach,
-	flags = {
-	  debounce_text_changes = 150,
-	}
-  }
-end
+-- local servers = { "solargraph" }
+-- for _, lsp in ipairs(servers) do
+--   nvim_lsp[lsp].setup {
+-- 	on_attach = on_attach,
+-- 	flags = {
+-- 	  debounce_text_changes = 150,
+-- 	}
+--   }
+-- end
 EOF
 
 hi Normal ctermbg=16 guibg=#000000
@@ -362,4 +373,7 @@ EOF
  endfunction
 
 command! OpenErrorFile call OpenErrorFile()
+
 nnoremap <leader>e :OpenErrorFile<CR>
+nnoremap <Leader>f :yank<CR>:!gpt Ctrl+R "
+nmap <Leader>z :source %<CR>
